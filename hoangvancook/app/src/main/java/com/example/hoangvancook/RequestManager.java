@@ -2,6 +2,8 @@ package com.example.hoangvancook;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
 import com.example.hoangvancook.Models.RandomRecipeApiResponse;
 
@@ -27,7 +29,7 @@ public class RequestManager {
         Call<RandomRecipeApiResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.api_key), "10");
         call.enqueue(new Callback<RandomRecipeApiResponse>() {
             @Override
-            public void onResponse(Call<RandomRecipeApiResponse> call, Response<RandomRecipeApiResponse> response) {
+            public void onResponse(@NonNull Call<RandomRecipeApiResponse> call, @NonNull Response<RandomRecipeApiResponse> response) {
                 if(!response.isSuccessful()){
                     listener.didError(response.message());
                     return;
@@ -36,7 +38,7 @@ public class RequestManager {
             }
 
             @Override
-            public void onFailure(Call<RandomRecipeApiResponse> call, Throwable throwable) {
+            public void onFailure(@NonNull Call<RandomRecipeApiResponse> call, @NonNull Throwable throwable) {
                 listener.didError(throwable.getMessage());
             }
         });
