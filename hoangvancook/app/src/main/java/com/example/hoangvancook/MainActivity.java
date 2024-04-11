@@ -3,6 +3,7 @@ package com.example.hoangvancook;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -19,16 +20,26 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
 
+    public void loadData(){
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading...");
         manager = new RequestManager(this);
         manager.getRandomRecipes(randomRecipeResponseListener);
-
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        loadData();
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
 
 
     }
@@ -36,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
         public void didFetch(RandomRecipeApiResponse response, String message) {
-            
+
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
