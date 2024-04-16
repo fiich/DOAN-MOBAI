@@ -2,6 +2,7 @@ package com.example.hoangvancook;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -10,12 +11,15 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.hoangvancook.Adapters.RandomRecipeAdapter;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
@@ -28,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    ProgressDialog dialog;
+
     RequestManager manager;
     RandomRecipeAdapter randomRecipeAdapter;
     RecyclerView recyclerView;
@@ -38,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
     HorizontalScrollView chipFilterScrollView;
     List<String> tags = new ArrayList<>();
 
+    NestedScrollView nestedScrollView;
+
+
 
 
     public void loadData(){
-
-        dialog = new ProgressDialog(this);
-        dialog.setTitle("Loading...");
         manager = new RequestManager(this);
         manager.getRandomRecipes(randomRecipeResponseListener,tags);
     }
@@ -52,10 +56,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadData();
-
         chipGroup = findViewById(R.id.chipGroup);
         toggleFilterButton = findViewById(R.id.toggleFilterButton);
         chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
+        nestedScrollView = findViewById(R.id.nestedScrollView);
+
 
 
         String[] filterOptions = getResources().getStringArray(R.array.tags);
@@ -76,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 loadData();
+
                 pullToRefresh.setRefreshing(false);
+
             }
         });
 
@@ -95,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Call API to get random recipes with the selected tags
                 manager.getRandomRecipes(randomRecipeResponseListener,tags);
+
 
             }
         });
@@ -115,10 +123,17 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     private void toggleFilterVisibility() {
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+
         if (chipFilterScrollView.getVisibility() == View.VISIBLE) {
             chipFilterScrollView.setVisibility(View.GONE);
+            chipFilterScrollView.startAnimation(fadeOut);
+            nestedScrollView.scrollTo(0, 0);
         } else {
             chipFilterScrollView.setVisibility(View.VISIBLE);
+            chipFilterScrollView.startAnimation(fadeIn);
+            nestedScrollView.scrollTo(0, nestedScrollView.getChildAt(0).getHeight());
         }
     }
     private void addChip(String text) {
