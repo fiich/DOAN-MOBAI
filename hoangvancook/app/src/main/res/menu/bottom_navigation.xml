@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/baseline_home_filled_24"/>
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/search_fill0_wght400_grad0_opsz24"/>
+    <item
+        android:id="@+id/action_bookmark"
+        android:icon="@drawable/baseline_bookmark_24"/>
+    <item
+        android:id="@+id/action_profile"
+        android:icon="@drawable/account_circle_fill0_wght400_grad0_opsz24"
+         />
+</menu>
