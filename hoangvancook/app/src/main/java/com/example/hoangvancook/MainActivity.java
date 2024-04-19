@@ -39,15 +39,19 @@ public class MainActivity extends AppCompatActivity {
     RandomRecipeAdapter randomRecipeAdapter;
     RecyclerView recyclerView;
     ChipGroup chipGroup;
-    Chip chip;
+
     ImageView toggleFilterButton;
     HorizontalScrollView chipFilterScrollView;
     List<String> tags = new ArrayList<>();
     NestedScrollView nestedScrollView;
+    ProgressDialog dialog;
 
 
 
     public void loadData(){
+        dialog = new ProgressDialog(this);
+        dialog.setTitle("Loading...");
+        dialog.show();
         manager = new RequestManager(this);
         manager.getRandomRecipes(randomRecipeResponseListener,tags);
     }
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         loadData();
         chipGroup = findViewById(R.id.chipGroup);
         toggleFilterButton = findViewById(R.id.toggleFilterButton);
@@ -97,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Call API to get random recipes with the selected tags
-                manager.getRandomRecipes(randomRecipeResponseListener,tags);
+                loadData();
 
 
             }
@@ -106,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
         public void didFetch(RandomRecipeApiResponse response, String message) {
+            dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
