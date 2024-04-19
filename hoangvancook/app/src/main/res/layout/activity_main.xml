@@ -42,7 +42,8 @@
                     android:text="@string/app_name"
                     android:textColor="@color/orange"
                     android:textSize="24sp"
-                    android:textStyle="bold">
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap">
 
                 </TextView>
 
@@ -52,8 +53,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="12dp"
-                    android:layout_marginRight="4dp"
-                    android:src="@drawable/ic_filter">
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_filter"
+                    android:contentDescription=" "
+                    tools:ignore="HardcodedText">
 
                 </ImageView>
             </RelativeLayout>
@@ -108,7 +111,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_above="@id/bottom_nav"
         android:background="@color/white" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

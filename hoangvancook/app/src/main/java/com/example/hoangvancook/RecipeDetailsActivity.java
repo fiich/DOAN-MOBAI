@@ -15,6 +15,8 @@ import com.example.hoangvancook.Listeners.RecipeDetailsListener;
 import com.example.hoangvancook.Models.RecipeDetailsResponse;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
+
 public class RecipeDetailsActivity extends AppCompatActivity {
     int id;
     TextView textView_meal_name, textView_meal_source, textView_meal_summary;
@@ -31,7 +33,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
 
         findViews();
 
-        id = Integer.parseInt(getIntent().getStringExtra("id"));
+        id = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("id")));
         manager = new RequestManager(this);
         manager.getRecipeDetails(recipeDetailsListener, id);
         dialog = new ProgressDialog(this);

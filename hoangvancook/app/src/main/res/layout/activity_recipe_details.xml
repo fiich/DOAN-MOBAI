@@ -42,7 +42,8 @@
                     android:text="Meal Details"
                     android:textColor="@color/orange"
                     android:textSize="24sp"
-                    android:textStyle="bold">
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText">
 
                 </TextView>
 
@@ -66,7 +67,8 @@
                     android:padding="8dp"
                     android:textStyle="bold"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
                 <TextView
                     android:id="@+id/textView_meal_source"
                     android:text="Source"
@@ -76,13 +78,16 @@
                     android:textColor="@color/white"
                     android:padding="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
                 <ImageView
                     android:id="@+id/imageView_meal_image"
                     android:layout_margin="8dp"
                     android:scaleType="centerCrop"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"/>
+                    android:layout_height="250dp"
+                    android:contentDescription=" "
+                    tools:ignore="HardcodedText" />
                 <TextView
                     android:id="@+id/textView_meal_summary"
                     android:text="Summary"
@@ -93,7 +98,8 @@
                     android:padding="8dp"
                     android:layout_margin="8dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
                 <TextView
                     android:text="Ingredients"
                     android:textStyle="bold"
@@ -102,7 +108,8 @@
                     android:padding="8dp"
                     android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_meal_ingredients"
                     android:layout_margin="8dp"
@@ -117,7 +124,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_above="@id/bottom_nav"
         android:background="@color/white" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
