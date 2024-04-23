@@ -7,8 +7,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +30,10 @@ import com.example.hoangvancook.Models.RandomRecipeApiResponse;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +51,32 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+    public void checkInternetAndLoadData() {
+        if (isInternetConnected()) {
+            loadData();
+        } else {
+            // Show error message indicating no internet connection
+            showError("No internet connection!");
+        }
+    }
+
+    public boolean isInternetConnected() {
+        // You need to implement a method to check internet connectivity here
+        // You can use methods like checking network connectivity, ping a server, etc.
+        // Here's a basic example of checking network connectivity
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+    public void showError(String errorMessage) {
+        // You can display the error message to the user using a dialog, toast, or any other UI component
+        // For example, showing an AlertDialog:
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("NO INTERNET CONNECTION");
+        builder.setMessage(errorMessage);
+        builder.setPositiveButton("OK", null);
+        builder.show();
+    }
     public void loadData(){
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading...");
@@ -60,11 +95,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loadData();
+        checkInternetAndLoadData();
         findViews();
 
         String[] filterOptions = getResources().getStringArray(R.array.tags);
-
         // Add chips for each item in the string array
         for (String option : filterOptions) {
             addChip(option);
@@ -80,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
+                checkInternetAndLoadData();
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -89,7 +123,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
                 tags.clear(); // Clear existing tags
-
                 // Iterate over the checked chips and add their text to the tags list
                 for (int i = 0; i < group.getChildCount(); i++) {
                     Chip chip = (Chip) group.getChildAt(i);
@@ -98,7 +131,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
                 // Call API to get random recipes with the selected tags
-                loadData();
+                checkInternetAndLoadData();
             }
         });
     }
@@ -133,7 +166,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
     private void addChip(String text) {
-        Chip chip = (Chip) LayoutInflater.from(HomeActivity.this).inflate(R.layout.chip_layout, null);
+        @SuppressLint("InflateParams") Chip chip = (Chip) LayoutInflater.from(HomeActivity.this).inflate(R.layout.chip_layout, null);
         chip.setText(text);
         chip.setClickable(true);
         chip.setCheckable(true); // If you want chips to be selectable
