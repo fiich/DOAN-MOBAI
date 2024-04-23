@@ -3,18 +3,18 @@
 
     <item
         android:id="@+id/action_home"
-        android:icon="@drawable/baseline_home_filled_24"
-        android:title="Home" />
+        android:icon="@drawable/ic_home"
+        android:title=" "/>
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/search_fill0_wght400_grad0_opsz24"
-        android:title="Search" />
+        android:icon="@drawable/ic_search"
+        android:title=" "/>
     <item
         android:id="@+id/action_bookmark"
-        android:icon="@drawable/baseline_bookmark_24"
-        android:title="Bookmark" />
+        android:icon="@drawable/ic_bookmark"
+        android:title=" "/>
     <item
         android:id="@+id/action_profile"
-        android:icon="@drawable/account_circle_fill0_wght400_grad0_opsz24"
-        android:title="Profile" />
+        android:icon="@drawable/ic_account"
+        android:title=" "/>
 </menu>

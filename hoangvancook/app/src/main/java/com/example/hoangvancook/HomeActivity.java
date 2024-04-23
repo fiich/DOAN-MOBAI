@@ -14,13 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.hoangvancook.Adapters.RandomRecipeAdapter;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
@@ -29,17 +25,15 @@ import com.example.hoangvancook.Models.RandomRecipeApiResponse;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     RequestManager manager;
     RandomRecipeAdapter randomRecipeAdapter;
     RecyclerView recyclerView;
     ChipGroup chipGroup;
-
     ImageView toggleFilterButton;
     HorizontalScrollView chipFilterScrollView;
     List<String> tags = new ArrayList<>();
@@ -55,16 +49,19 @@ public class MainActivity extends AppCompatActivity {
         manager = new RequestManager(this);
         manager.getRandomRecipes(randomRecipeResponseListener,tags);
     }
+    public void findViews(){
+        chipGroup = findViewById(R.id.chipGroup);
+        toggleFilterButton = findViewById(R.id.toggleFilterButton);
+        chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
+        nestedScrollView = findViewById(R.id.nestedScrollView);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         loadData();
-        chipGroup = findViewById(R.id.chipGroup);
-        toggleFilterButton = findViewById(R.id.toggleFilterButton);
-        chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
-        nestedScrollView = findViewById(R.id.nestedScrollView);
+        findViews();
 
         String[] filterOptions = getResources().getStringArray(R.array.tags);
 
@@ -100,11 +97,8 @@ public class MainActivity extends AppCompatActivity {
                         tags.add(chip.getText().toString());
                     }
                 }
-
                 // Call API to get random recipes with the selected tags
                 loadData();
-
-
             }
         });
     }
@@ -114,14 +108,14 @@ public class MainActivity extends AppCompatActivity {
             dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 1));
+            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 1));
 
-            randomRecipeAdapter = new RandomRecipeAdapter(MainActivity.this, response.recipes, recipeClickListener);
+            randomRecipeAdapter = new RandomRecipeAdapter(HomeActivity.this, response.recipes, recipeClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);
         }
         @Override
         public void didError(String message) {
-            Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
         }
     };
     private void toggleFilterVisibility() {
@@ -139,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void addChip(String text) {
-        Chip chip = (Chip) LayoutInflater.from(MainActivity.this).inflate(R.layout.chip_layout, null);
+        Chip chip = (Chip) LayoutInflater.from(HomeActivity.this).inflate(R.layout.chip_layout, null);
         chip.setText(text);
         chip.setClickable(true);
         chip.setCheckable(true); // If you want chips to be selectable
@@ -150,8 +144,7 @@ public class MainActivity extends AppCompatActivity {
     private  final RecipeClickListener recipeClickListener = new RecipeClickListener() {
         @Override
         public void onRecipeClick(String id) {
-
-            startActivity(new Intent(MainActivity.this, RecipeDetailsActivity.class)
+            startActivity(new Intent(HomeActivity.this, RecipeDetailsActivity.class)
                     .putExtra("id", id));
         }
     };
