@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/black"
     app:cardElevation="8dp"
     android:layout_margin="8dp"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -14,7 +15,7 @@
             android:id="@+id/textView_instruction_name"
             android:text="Instruction"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="16sp" 
             android:textAlignment="center"
             android:textColor="@color/orange"
             android:padding="8dp"

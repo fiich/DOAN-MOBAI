@@ -2,6 +2,7 @@ package com.example.hoangvancook;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -43,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     RandomRecipeAdapter randomRecipeAdapter;
     RecyclerView recyclerView;
     ChipGroup chipGroup;
-    ImageView toggleFilterButton;
+    ImageView toggleFilterButton,imageView_bookmark;
     HorizontalScrollView chipFilterScrollView;
     List<String> tags = new ArrayList<>();
     NestedScrollView nestedScrollView;
@@ -61,16 +63,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public boolean isInternetConnected() {
-        // You need to implement a method to check internet connectivity here
-        // You can use methods like checking network connectivity, ping a server, etc.
-        // Here's a basic example of checking network connectivity
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
     public void showError(String errorMessage) {
-        // You can display the error message to the user using a dialog, toast, or any other UI component
-        // For example, showing an AlertDialog:
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("NO INTERNET CONNECTION");
         builder.setMessage(errorMessage);
@@ -89,6 +87,7 @@ public class HomeActivity extends AppCompatActivity {
         toggleFilterButton = findViewById(R.id.toggleFilterButton);
         chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
         nestedScrollView = findViewById(R.id.nestedScrollView);
+        imageView_bookmark = findViewById(R.id.imageView_bookmark);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +133,7 @@ public class HomeActivity extends AppCompatActivity {
                 checkInternetAndLoadData();
             }
         });
+
     }
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
@@ -141,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
             dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 1));
+            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
 
             randomRecipeAdapter = new RandomRecipeAdapter(HomeActivity.this, response.recipes, recipeClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);
