@@ -15,22 +15,24 @@
         <TextView
             android:id="@+id/textView_ingredients_quantity"
             android:text="1 pc"
+
             android:singleLine="true"
             android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
+            android:marqueeRepeatLimit="@integer/material_motion_duration_long_2"
             android:scrollHorizontally="true"
             android:textColor="@color/black"
             android:gravity="center"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="HardcodedText" />
         <ImageView
             android:id="@+id/imageView_ingredients"
-            android:scaleType="center"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
+            android:scaleType="fitCenter"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
             android:contentDescription=" "
             tools:ignore="HardcodedText" />
         <TextView
@@ -38,9 +40,9 @@
             android:text="Chicken"
             android:singleLine="true"
             android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
+            android:marqueeRepeatLimit="@integer/material_motion_duration_long_2"
             android:scrollHorizontally="true"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textStyle="bold"

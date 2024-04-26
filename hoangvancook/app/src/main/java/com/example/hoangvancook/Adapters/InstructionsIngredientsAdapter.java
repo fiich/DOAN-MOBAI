@@ -34,7 +34,7 @@ public class InstructionsIngredientsAdapter extends RecyclerView.Adapter<Instruc
     @Override
     public void onBindViewHolder(@NonNull InstructionIngredientsViewHolder holder, int position) {
 
-        Picasso.get().load("https://img.spoonacular.com/ingredients_100x100/" + list.get(position).image).into(holder.imageView_instructions_step_item);
+        Picasso.get().load(list.get(position).image).into(holder.imageView_instructions_step_item);
         holder.textView_instructions_step_item.setText(list.get(position).name);
         holder.textView_instructions_step_item.setSelected(true);
     }

@@ -12,14 +12,15 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/imageView_instructions_step_item"
-            android:scaleType="center"
-            android:layout_width="150dp"
-            android:layout_height="150dp"/>
+            android:scaleType="fitCenter"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:padding="10dp"/>
         <TextView
             android:id="@+id/textView_instructions_step_item"
             android:text="item"
             android:textStyle="normal"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:padding="4dp"
