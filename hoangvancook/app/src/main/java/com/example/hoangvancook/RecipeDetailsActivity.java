@@ -41,8 +41,10 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_details);
 
         findViews();
+        int id;
+        id = getIntent().getIntExtra("id", 0);
 
-        id = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("id")));
+//        id = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("id")));
         manager = new RequestManager(this);
         manager.getRecipeDetails(recipeDetailsListener, id);
         manager.getInstructions(instructionsListener,id);

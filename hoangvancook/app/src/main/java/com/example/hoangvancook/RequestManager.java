@@ -1,16 +1,22 @@
 package com.example.hoangvancook;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.hoangvancook.Listeners.InstructionsListener;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
 
 import com.example.hoangvancook.Listeners.RecipeDetailsListener;
+import com.example.hoangvancook.Listeners.SearchResponseListener;
 import com.example.hoangvancook.Models.InstructionsResponse;
 import com.example.hoangvancook.Models.RandomRecipeApiResponse;
 import com.example.hoangvancook.Models.RecipeDetailsResponse;
+import com.example.hoangvancook.Models.SearchResponse;
 
 import java.util.List;
 
@@ -25,6 +31,12 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class RequestManager {
+    private MutableLiveData<SearchResponse> Foods = new MutableLiveData<>();
+    public LiveData<SearchResponse> getsearch()
+    {
+        return Foods;
+    }
+
     Context context;
     Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.spoonacular.com").addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -90,6 +102,27 @@ public class RequestManager {
             }
         });
     }
+
+    public void searchFood (SearchResponseListener listener,String query)
+    {
+        Search searchfood = retrofit.create(Search.class);
+        Call<SearchResponse> call = searchfood.searchresponse("f6cc4597a30f46de9d5251182f968f32",query);
+        call.enqueue(new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                if(response.isSuccessful()){
+                      listener.didFetch(response.body(),response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable throwable) {
+                listener.didError(throwable.getMessage());
+            }
+        });
+
+
+    }
     private interface CallRandomRecipes{
         @GET("recipes/random")
         Call<RandomRecipeApiResponse> callRandomRecipe(
@@ -110,6 +143,14 @@ public class RequestManager {
         Call<List<InstructionsResponse>> callInstructions(
             @Path("id") int id,
             @Query("apiKey") String apiKey
+        );
+    }
+    private interface Search{
+        @GET("recipes/complexSearch")
+        Call<SearchResponse> searchresponse(
+                @Query("apiKey") String apiKey,
+                @Query("query") String query
+
         );
     }
 }
