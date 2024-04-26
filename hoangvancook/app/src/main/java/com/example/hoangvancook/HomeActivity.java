@@ -140,11 +140,11 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(HomeActivity.this,SearchAcivity.class);
                     startActivity(intent);
+
                 }
                 return false;
             }
         });
-
     }
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
