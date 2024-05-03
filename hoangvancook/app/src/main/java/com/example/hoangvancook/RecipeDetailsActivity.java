@@ -1,15 +1,12 @@
 package com.example.hoangvancook;
 
 import android.app.ProgressDialog;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +25,7 @@ import java.util.Objects;
 public class RecipeDetailsActivity extends AppCompatActivity {
     int id;
     TextView textView_meal_name, textView_meal_source, textView_meal_summary;
-    ImageView imageView_meal_image,imageView_bookmark;
+    ImageView imageView_meal_image;
     RecyclerView recycler_meal_ingredients, recycler_meal_equipments, recycler_meal_instructions;
     RequestManager manager;
     ProgressDialog dialog;
@@ -41,10 +38,8 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_details);
 
         findViews();
-        int id;
-        id = getIntent().getIntExtra("id", 0);
 
-//        id = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("id")));
+        id = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("id")));
         manager = new RequestManager(this);
         manager.getRecipeDetails(recipeDetailsListener, id);
         manager.getInstructions(instructionsListener,id);
@@ -53,9 +48,6 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         dialog.setTitle("Loading Details...");
         dialog.show();
-
-
-
     }
 
     private void findViews() {
@@ -65,7 +57,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         imageView_meal_image = findViewById(R.id.imageView_meal_image);
         recycler_meal_ingredients = findViewById(R.id.recycler_meal_ingredients);
         recycler_meal_instructions = findViewById(R.id.recycler_meal_instructions);
-        imageView_bookmark = findViewById(R.id.imageView_bookmark);
+
     }
 
 
@@ -81,8 +73,14 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             recycler_meal_ingredients.setHasFixedSize(true);
             recycler_meal_ingredients.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
 
+
+
             ingredientsAdapter = new IngredientsAdapter(RecipeDetailsActivity.this, response.extendedIngredients);
             recycler_meal_ingredients.setAdapter(ingredientsAdapter);
+
+
+
+
         }
         @Override
         public void didError(String message) {
@@ -104,5 +102,4 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             Toast.makeText(RecipeDetailsActivity.this, message, Toast.LENGTH_SHORT ).show();
         }
     };
-
 }

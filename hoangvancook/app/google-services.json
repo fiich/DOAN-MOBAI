@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "80536065311",
+    "firebase_url": "https://hoangvancook-d8c39-default-rtdb.firebaseio.com",
+    "project_id": "hoangvancook-d8c39",
+    "storage_bucket": "hoangvancook-d8c39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80536065311:android:07a2dacf3c57fdc38b0c2a",
+        "android_client_info": {
+          "package_name": "com.example.hoangvancook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80536065311-9tqbevbj9dg69u0lh33nq0i50hu0l821.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hoangvancook",
+            "certificate_hash": "89d8538e1195e4f36db5c66a45b59e05f0e119d4"
+          }
+        },
+        {
+          "client_id": "80536065311-0tf68gcsspo09hboamb7b8eltf0bvoug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9iqJuQd05bzXq9AIHYd8Ss6Yx8pbNcEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80536065311-0tf68gcsspo09hboamb7b8eltf0bvoug.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
