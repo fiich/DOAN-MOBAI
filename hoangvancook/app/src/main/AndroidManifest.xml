@@ -12,26 +12,32 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Hoangvancook"
         tools:targetApi="31">
         <activity
+            android:name=".OTP"
+            android:exported="false" />
+        <activity
+            android:name=".PhoneNumberSignUp"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".SearchAcivity"/>
-        <activity android:name=".RecipeDetailsActivity">
-
-        </activity>
-
+        <activity android:name=".RecipeDetailsActivity" />
     </application>
 
 </manifest>

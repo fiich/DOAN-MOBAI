@@ -12,15 +12,14 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,25 +28,32 @@ import com.example.hoangvancook.Adapters.RandomRecipeAdapter;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
 import com.example.hoangvancook.Listeners.RecipeClickListener;
 import com.example.hoangvancook.Models.RandomRecipeApiResponse;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-
     RequestManager manager;
     RandomRecipeAdapter randomRecipeAdapter;
     RecyclerView recyclerView;
     ChipGroup chipGroup;
-    ImageView toggleFilterButton,imageView_bookmark;
+    ImageView toggleFilterButton;
     HorizontalScrollView chipFilterScrollView;
     List<String> tags = new ArrayList<>();
     NestedScrollView nestedScrollView;
     ProgressDialog dialog;
-    BottomNavigationView bottomNavigationView;
 
 
 
@@ -61,12 +67,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public boolean isInternetConnected() {
-
+        // You need to implement a method to check internet connectivity here
+        // You can use methods like checking network connectivity, ping a server, etc.
+        // Here's a basic example of checking network connectivity
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
     public void showError(String errorMessage) {
+        // You can display the error message to the user using a dialog, toast, or any other UI component
+        // For example, showing an AlertDialog:
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("NO INTERNET CONNECTION");
         builder.setMessage(errorMessage);
@@ -85,15 +95,11 @@ public class HomeActivity extends AppCompatActivity {
         toggleFilterButton = findViewById(R.id.toggleFilterButton);
         chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
         nestedScrollView = findViewById(R.id.nestedScrollView);
-        imageView_bookmark = findViewById(R.id.imageView_bookmark);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        checkInternetAndLoadData();
-        findViews();
 
         String[] filterOptions = getResources().getStringArray(R.array.tags);
         // Add chips for each item in the string array
@@ -131,20 +137,6 @@ public class HomeActivity extends AppCompatActivity {
                 checkInternetAndLoadData();
             }
         });
-        bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                if(item.getItemId()==R.id.action_search)
-                {
-                    Intent intent = new Intent(HomeActivity.this,SearchAcivity.class);
-                    startActivity(intent);
-
-                }
-                return false;
-            }
-        });
     }
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
@@ -152,7 +144,7 @@ public class HomeActivity extends AppCompatActivity {
             dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
+            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 1));
 
             randomRecipeAdapter = new RandomRecipeAdapter(HomeActivity.this, response.recipes, recipeClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);
@@ -163,16 +155,12 @@ public class HomeActivity extends AppCompatActivity {
         }
     };
     private void toggleFilterVisibility() {
-        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        Animation fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
         if (chipFilterScrollView.getVisibility() == View.VISIBLE) {
             chipFilterScrollView.setVisibility(View.GONE);
-            chipFilterScrollView.startAnimation(fadeOut);
             nestedScrollView.scrollTo(0, 0);
         } else {
             chipFilterScrollView.setVisibility(View.VISIBLE);
-            chipFilterScrollView.startAnimation(fadeIn);
             nestedScrollView.scrollTo(0, nestedScrollView.getChildAt(0).getHeight());
         }
     }
@@ -192,6 +180,5 @@ public class HomeActivity extends AppCompatActivity {
                     .putExtra("id", id));
         }
     };
-
 
 }
