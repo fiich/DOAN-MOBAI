@@ -17,9 +17,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
+
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -28,19 +26,11 @@ import com.example.hoangvancook.Adapters.RandomRecipeAdapter;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
 import com.example.hoangvancook.Listeners.RecipeClickListener;
 import com.example.hoangvancook.Models.RandomRecipeApiResponse;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,6 +91,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkInternetAndLoadData();
+        findViews();
+
         String[] filterOptions = getResources().getStringArray(R.array.tags);
         // Add chips for each item in the string array
         for (String option : filterOptions) {
@@ -137,6 +130,7 @@ public class HomeActivity extends AppCompatActivity {
                 checkInternetAndLoadData();
             }
         });
+
     }
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override
@@ -144,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
             dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 1));
+            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
 
             randomRecipeAdapter = new RandomRecipeAdapter(HomeActivity.this, response.recipes, recipeClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);

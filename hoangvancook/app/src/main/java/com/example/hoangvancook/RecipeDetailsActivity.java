@@ -26,7 +26,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     int id;
     TextView textView_meal_name, textView_meal_source, textView_meal_summary;
     ImageView imageView_meal_image;
-    RecyclerView recycler_meal_ingredients, recycler_meal_equipments, recycler_meal_instructions;
+    RecyclerView recycler_meal_ingredients, recycler_meal_instructions;
     RequestManager manager;
     ProgressDialog dialog;
     IngredientsAdapter ingredientsAdapter;
@@ -67,7 +67,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             dialog.dismiss();
             textView_meal_name.setText(response.title);
             textView_meal_source.setText(response.sourceName);
-            textView_meal_summary.setText(response.summary.replaceAll("\\<.*?\\>", ""));
+            textView_meal_summary.setText(response.summary.replaceAll("<.*?>", ""));
             Picasso.get().load(response.image).into(imageView_meal_image);
 
             recycler_meal_ingredients.setHasFixedSize(true);
