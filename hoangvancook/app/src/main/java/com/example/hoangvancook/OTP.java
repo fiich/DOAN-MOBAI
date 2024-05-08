@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 
 public class OTP extends AppCompatActivity {
     private String mPhoneNumber;
-    private String mVerifycationID;
+    private String mVerificationID;
 
     private static final String TAG = OTP.class.getName();
     private FirebaseAuth mAuth;
@@ -66,10 +66,10 @@ public class OTP extends AppCompatActivity {
 
     private void getDataIntent(){
         mPhoneNumber = getIntent().getStringExtra("phone_number");
-        mVerifycationID = getIntent().getStringExtra("verifycation_id");
+        mVerificationID = getIntent().getStringExtra("verification_id");
     }
     private void onClickSendOTP(String strOTP) {
-        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerifycationID, strOTP);
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(mVerificationID, strOTP);
         signInWithPhoneAuthCredential(credential);
     }
 
@@ -93,9 +93,9 @@ public class OTP extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onCodeSent(@NonNull String verifycationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                super.onCodeSent(verifycationID, forceResendingToken);
-                                mVerifycationID = verifycationID;
+                            public void onCodeSent(@NonNull String verificationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                super.onCodeSent(verificationID, forceResendingToken);
+                                mVerificationID = verificationID;
                                 mForceResendingToken = forceResendingToken;
                             }
                         })
@@ -126,11 +126,8 @@ public class OTP extends AppCompatActivity {
                     }
                 });
     }
-
     private void goToLoginActivity() {
         Intent myintent = new Intent(OTP.this, LoginActivity.class);
         startActivity(myintent);
     }
-
-
 }

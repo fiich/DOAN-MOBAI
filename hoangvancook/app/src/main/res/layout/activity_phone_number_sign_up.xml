@@ -54,6 +54,8 @@
               android:textColor="@color/white"/>
             <EditText
                 android:id="@+id/edt_PhoneNumber"
+
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:maxLines="1"

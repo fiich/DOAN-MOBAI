@@ -9,15 +9,20 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,7 +48,8 @@ public class HomeActivity extends AppCompatActivity {
     HorizontalScrollView chipFilterScrollView;
     List<String> tags = new ArrayList<>();
     NestedScrollView nestedScrollView;
-    ProgressDialog dialog;
+    Dialog dialog;
+
 
 
 
@@ -51,22 +57,22 @@ public class HomeActivity extends AppCompatActivity {
         if (isInternetConnected()) {
             loadData();
         } else {
-            // Show error message indicating no internet connection
+            dialog = new Dialog(this);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.create();
+            dialog.setContentView(R.layout.dialog_loading);
+            dialog.show();
             showError("No internet connection!");
         }
     }
 
     public boolean isInternetConnected() {
-        // You need to implement a method to check internet connectivity here
-        // You can use methods like checking network connectivity, ping a server, etc.
-        // Here's a basic example of checking network connectivity
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         return networkInfo != null && networkInfo.isConnected();
     }
+    
     public void showError(String errorMessage) {
-        // You can display the error message to the user using a dialog, toast, or any other UI component
-        // For example, showing an AlertDialog:
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("NO INTERNET CONNECTION");
         builder.setMessage(errorMessage);
@@ -74,17 +80,23 @@ public class HomeActivity extends AppCompatActivity {
         builder.show();
     }
     public void loadData(){
-        dialog = new ProgressDialog(this);
-        dialog.setTitle("Loading...");
+        dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.create();
+        dialog.setContentView(R.layout.dialog_loading);
         dialog.show();
+
+
         manager = new RequestManager(this);
         manager.getRandomRecipes(randomRecipeResponseListener,tags);
     }
+
     public void findViews(){
         chipGroup = findViewById(R.id.chipGroup);
         toggleFilterButton = findViewById(R.id.toggleFilterButton);
         chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
         nestedScrollView = findViewById(R.id.nestedScrollView);
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +107,7 @@ public class HomeActivity extends AppCompatActivity {
         findViews();
 
         String[] filterOptions = getResources().getStringArray(R.array.tags);
-        // Add chips for each item in the string array
+
         for (String option : filterOptions) {
             addChip(option);
         }
@@ -126,7 +138,6 @@ public class HomeActivity extends AppCompatActivity {
                         tags.add(chip.getText().toString());
                     }
                 }
-                // Call API to get random recipes with the selected tags
                 checkInternetAndLoadData();
             }
         });
@@ -162,8 +173,8 @@ public class HomeActivity extends AppCompatActivity {
         @SuppressLint("InflateParams") Chip chip = (Chip) LayoutInflater.from(HomeActivity.this).inflate(R.layout.chip_layout, null);
         chip.setText(text);
         chip.setClickable(true);
-        chip.setCheckable(true); // If you want chips to be selectable
-        chip.setPadding(8, 0, 8, 0); // Adjust padding as needed
+        chip.setCheckable(true);
+        chip.setPadding(8, 0, 8, 0);
         chipGroup.addView(chip);
     }
 

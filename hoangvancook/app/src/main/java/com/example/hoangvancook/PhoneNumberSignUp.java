@@ -11,13 +11,11 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
+
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,8 +38,8 @@ public class PhoneNumberSignUp extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        Button btn_VerifyPhoneNumber = (Button) findViewById(R.id.btn_VerifyPhoneNumber);
-        EditText edt_PhoneNumber = (EditText) findViewById(R.id.edt_PhoneNumber);
+        Button btn_VerifyPhoneNumber = findViewById(R.id.btn_VerifyPhoneNumber);
+        EditText edt_PhoneNumber = findViewById(R.id.edt_PhoneNumber);
 
         btn_VerifyPhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +69,9 @@ public class PhoneNumberSignUp extends AppCompatActivity {
                             }
 
                             @Override
-                            public void onCodeSent(@NonNull String verifycationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                                super.onCodeSent(verifycationID, forceResendingToken);
-                                goToOTpActivity(strPhoneNumber, verifycationID);
+                            public void onCodeSent(@NonNull String verificationID, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                super.onCodeSent(verificationID, forceResendingToken);
+                                goToOTpActivity(strPhoneNumber, verificationID);
                             }
                         })
                         .build();
@@ -109,10 +107,10 @@ public class PhoneNumberSignUp extends AppCompatActivity {
         startActivity(myintent);
     }
 
-    private void goToOTpActivity(String strPhoneNumber, String verifycationID) {
+    private void goToOTpActivity(String strPhoneNumber, String verificationID) {
         Intent myintent = new Intent(this, OTP.class);
         myintent.putExtra("phone_number", strPhoneNumber);
-        myintent.putExtra("verication_id", verifycationID);
+        myintent.putExtra("verification_id", verificationID);
         startActivity(myintent);
     }
 }

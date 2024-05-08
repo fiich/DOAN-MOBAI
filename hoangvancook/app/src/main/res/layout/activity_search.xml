@@ -60,13 +60,13 @@
             android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
-                app:queryHint="Search Your Food...."
-                app:iconifiedByDefault="false"
-                app:searchIcon="@drawable/ic_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+<!--            <androidx.appcompat.widget.SearchView-->
+<!--                android:id="@+id/searchView"-->
+<!--                app:queryHint="Search Your Food...."-->
+<!--                app:iconifiedByDefault="false"-->
+<!--                app:searchIcon="@drawable/ic_search"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"/>-->
 
         </androidx.cardview.widget.CardView>
 
