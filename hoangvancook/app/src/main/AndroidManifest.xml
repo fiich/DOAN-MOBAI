@@ -32,6 +32,10 @@
 
         </activity>
         <activity
+            android:name=".SearchActivity"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>

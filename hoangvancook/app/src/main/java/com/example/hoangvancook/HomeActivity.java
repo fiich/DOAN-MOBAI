@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.HorizontalScrollView;
@@ -26,7 +27,9 @@ import com.example.hoangvancook.Adapters.RandomRecipeAdapter;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
 import com.example.hoangvancook.Listeners.RecipeClickListener;
 import com.example.hoangvancook.Models.RandomRecipeApiResponse;
+import com.example.hoangvancook.SearchActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
@@ -44,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     List<String> tags = new ArrayList<>();
     NestedScrollView nestedScrollView;
     ProgressDialog dialog;
-
+    BottomNavigationView bottomNavigationView;
 
 
     public void checkInternetAndLoadData() {
@@ -128,6 +131,20 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 // Call API to get random recipes with the selected tags
                 checkInternetAndLoadData();
+            }
+        });
+
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId()==R.id.action_search)
+                {
+                    Intent intent = new Intent(HomeActivity.this,SearchActivity.class);
+                    startActivity(intent);
+                }
+                return false;
             }
         });
 
