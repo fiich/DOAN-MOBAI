@@ -8,9 +8,11 @@ import com.example.hoangvancook.Listeners.InstructionsListener;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
 
 import com.example.hoangvancook.Listeners.RecipeDetailsListener;
+import com.example.hoangvancook.Listeners.SearchResponseListener;
 import com.example.hoangvancook.Models.InstructionsResponse;
 import com.example.hoangvancook.Models.RandomRecipeApiResponse;
 import com.example.hoangvancook.Models.RecipeDetailsResponse;
+import com.example.hoangvancook.Models.SearchResponse;
 
 import java.util.List;
 
@@ -89,6 +91,27 @@ public class RequestManager {
                 listener.didError(throwable.getMessage());
             }
         });
+
+    }
+    public void searchFood (SearchResponseListener listener, String query)
+    {
+        Search searchFood = retrofit.create(Search.class);
+        Call<SearchResponse> call = searchFood.SearchResponse("f6cc4597a30f46de9d5251182f968f32",query);
+        call.enqueue(new Callback<SearchResponse>() {
+            @Override
+            public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                if(response.isSuccessful()){
+                    listener.didFetch(response.body(),response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchResponse> call, Throwable throwable) {
+                listener.didError(throwable.getMessage());
+            }
+        });
+
+
     }
     private interface CallRandomRecipes{
         @GET("recipes/random")
@@ -110,6 +133,14 @@ public class RequestManager {
         Call<List<InstructionsResponse>> callInstructions(
             @Path("id") int id,
             @Query("apiKey") String apiKey
+        );
+    }
+    private interface Search{
+        @GET("recipes/complexSearch")
+        Call<SearchResponse> SearchResponse(
+                @Query("apiKey") String apiKey,
+                @Query("query") String query
+
         );
     }
 }
