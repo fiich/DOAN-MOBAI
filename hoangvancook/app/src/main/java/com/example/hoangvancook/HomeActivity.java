@@ -9,12 +9,17 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,49 +51,11 @@ public class HomeActivity extends AppCompatActivity {
     HorizontalScrollView chipFilterScrollView;
     List<String> tags = new ArrayList<>();
     NestedScrollView nestedScrollView;
-    ProgressDialog dialog;
+    Dialog dialog;
     BottomNavigationView bottomNavigationView;
 
 
-    public void checkInternetAndLoadData() {
-        if (isInternetConnected()) {
-            loadData();
-        } else {
-            // Show error message indicating no internet connection
-            showError("No internet connection!");
-        }
-    }
 
-    public boolean isInternetConnected() {
-        // You need to implement a method to check internet connectivity here
-        // You can use methods like checking network connectivity, ping a server, etc.
-        // Here's a basic example of checking network connectivity
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
-    }
-    public void showError(String errorMessage) {
-        // You can display the error message to the user using a dialog, toast, or any other UI component
-        // For example, showing an AlertDialog:
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("NO INTERNET CONNECTION");
-        builder.setMessage(errorMessage);
-        builder.setPositiveButton("OK", null);
-        builder.show();
-    }
-    public void loadData(){
-        dialog = new ProgressDialog(this);
-        dialog.setTitle("Loading...");
-        dialog.show();
-        manager = new RequestManager(this);
-        manager.getRandomRecipes(randomRecipeResponseListener,tags);
-    }
-    public void findViews(){
-        chipGroup = findViewById(R.id.chipGroup);
-        toggleFilterButton = findViewById(R.id.toggleFilterButton);
-        chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
-        nestedScrollView = findViewById(R.id.nestedScrollView);
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +115,55 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void checkInternetAndLoadData() {
+        if (isInternetConnected()) {
+            loadData();
+        } else {
+            showError("No internet connection!");
+        }
+    }
+    public boolean isInternetConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
+    }
+    public void showError(String errorMessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_error,null);
+        builder.setView(dialogView);
+        builder.setMessage(errorMessage);
+        builder.setPositiveButton("Wi-Fi Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent wifiSettingsIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                startActivity(wifiSettingsIntent);
+            }
+        });
+        builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                checkInternetAndLoadData();
+            }
+        });
+        builder.create();
+        builder.show();
+    }
+
+    public void loadData(){
+        dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setContentView(R.layout.dialog_loading);
+        dialog.create();
+        dialog.show();
+        manager = new RequestManager(this);
+        manager.getRandomRecipes(randomRecipeResponseListener,tags);
+    }
+    public void findViews(){
+        chipGroup = findViewById(R.id.chipGroup);
+        toggleFilterButton = findViewById(R.id.toggleFilterButton);
+        chipFilterScrollView = findViewById(R.id.chipFilterScrollView);
+        nestedScrollView = findViewById(R.id.nestedScrollView);
     }
     private final RandomRecipeResponseListener randomRecipeResponseListener = new RandomRecipeResponseListener() {
         @Override

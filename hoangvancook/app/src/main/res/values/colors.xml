@@ -5,6 +5,8 @@
     <color name="orange">#E64512</color>
     <color name="orange_300">#FF8A65</color>
     <color name="orange_500">#FF5722</color>
-    <color name="bg_gray">#403E3E</color>
+    <color name="bg_gray">#131313</color>
     <color name="stroke_color">#ABABAB</color>
+    <color name="item_bg">#292929</color>
+
 </resources>
