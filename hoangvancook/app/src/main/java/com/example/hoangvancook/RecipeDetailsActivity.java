@@ -2,7 +2,7 @@ package com.example.hoangvancook;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -141,7 +141,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         @Override
         public void didFetch(List<SimilarRecipeResponse> response, String message) {
             recycler_meal_similar.setHasFixedSize(true);
-            recycler_meal_similar.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));;
+            recycler_meal_similar.setLayoutManager(new LinearLayoutManager(RecipeDetailsActivity.this, LinearLayoutManager.HORIZONTAL, false));
             similarRecipeAdapter = new SimilarRecipeAdapter(RecipeDetailsActivity.this, response, recipeClickListener);
             recycler_meal_similar.setAdapter(similarRecipeAdapter);
         }
