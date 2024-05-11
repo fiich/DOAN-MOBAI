@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     app:cardBackgroundColor="@color/item_bg"
-    android:id="@+id/random_list_container"
-    app:cardCornerRadius="12dp"
+    android:id="@+id/similar_recipe_container"
+    app:cardCornerRadius="8dp"
     app:cardElevation="20dp"
     android:layout_margin="8dp"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="wrap_content">
     <LinearLayout
 
@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView_food"
+            android:id="@+id/imageView_similar_recipe"
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textView_title"
+            android:id="@+id/textView_similar_recipe"
             android:text="Dish Name"
             android:minLines="2"
             android:maxLines="2"
@@ -56,7 +56,7 @@
                     android:layout_height="match_parent"
                     android:contentDescription="1" />
                 <TextView
-                    android:id="@+id/textView_serving"
+                    android:id="@+id/textView_similar_recipe_serving"
                     android:textSize="12sp"
                     android:padding="8dp"
 
@@ -71,7 +71,7 @@
                     android:layout_height="match_parent"
                     android:contentDescription="1" />
                 <TextView
-                    android:id="@+id/textView_time"
+                    android:id="@+id/textView_similar_recipe_time"
                     android:textSize="12sp"
                     android:padding="8dp"
                     android:text="45'"
