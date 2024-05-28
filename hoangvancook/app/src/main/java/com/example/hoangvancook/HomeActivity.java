@@ -10,7 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +36,7 @@ import com.example.hoangvancook.Models.RandomRecipeApiResponse;
 import com.example.hoangvancook.Models.Recipe;
 import com.example.hoangvancook.Models.RecipeBookmark;
 import com.example.hoangvancook.Models.RecipeDatabase;
-import com.example.hoangvancook.SearchActivity;
+
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;

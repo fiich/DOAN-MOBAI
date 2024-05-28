@@ -1,5 +1,6 @@
 package com.example.hoangvancook.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hoangvancook.BookmarkActivity;
+
 import com.example.hoangvancook.Models.RecipeBookmark;
 import com.example.hoangvancook.R;
 import com.squareup.picasso.Picasso;
@@ -31,6 +32,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
         return new BookmarkViewHolder(LayoutInflater.from(context).inflate(R.layout.list_bookmark, parent, false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BookmarkViewHolder holder, int position) {
         holder.textView_title.setText(bookmarks.get(position).title);
