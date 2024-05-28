@@ -95,8 +95,7 @@ public class RequestManager {
         });
 
     }
-    public void searchFood (SearchResponseListener listener, String query)
-    {
+    public void searchFood (SearchResponseListener listener, String query) {
         Search searchFood = retrofit.create(Search.class);
         Call<SearchResponse> call = searchFood.SearchResponse("f6cc4597a30f46de9d5251182f968f32",query);
         call.enqueue(new Callback<SearchResponse>() {

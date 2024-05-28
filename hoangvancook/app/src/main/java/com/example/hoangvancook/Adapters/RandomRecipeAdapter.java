@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hoangvancook.Listeners.RecipeClickListener;
+import com.example.hoangvancook.Listeners.RecipeLongClickListener;
 import com.example.hoangvancook.Models.Recipe;
 import com.example.hoangvancook.R;
 import com.squareup.picasso.Picasso;
@@ -23,13 +24,14 @@ import java.util.List;
 public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHolder>{
     Context context;
     List<Recipe> list;
-    RecipeClickListener listener;
+    RecipeClickListener clickListener;
+    RecipeLongClickListener longClickListener;
 
-
-    public RandomRecipeAdapter(Context context, List<Recipe> list, RecipeClickListener listener) {
+    public RandomRecipeAdapter(Context context, List<Recipe> list, RecipeClickListener clickListener, RecipeLongClickListener longClickListener) {
         this.context = context;
         this.list = list;
-        this.listener = listener;
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     @NonNull
@@ -45,17 +47,26 @@ public class RandomRecipeAdapter extends RecyclerView.Adapter<RandomRecipeViewHo
         holder.textView_title.setSelected(true);
         holder.textView_serving.setText(list.get(position).servings + " ");
         holder.textView_time.setText(list.get(position).readyInMinutes + "'");
-        Picasso.get().load(list.get(position).image).into(holder.imageView_food);
+        Picasso.get().load(list.get(position).image)
+                .placeholder(R.drawable.image_error)
+                .error(R.drawable.image_error)
+                .into(holder.imageView_food);
 
 
         holder.random_list_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onRecipeClick(String.valueOf(list.get(holder.getAdapterPosition()).id));
+                clickListener.onRecipeClick(String.valueOf(list.get(holder.getAdapterPosition()).id));
+            }
+        });
+        holder.random_list_container.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                longClickListener.onRecipeLongClick(list.get(holder.getAdapterPosition()));
+                return true;
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return list.size();
@@ -70,8 +81,8 @@ class RandomRecipeViewHolder extends RecyclerView.ViewHolder{
         random_list_container = itemView.findViewById(R.id.random_list_container);
         textView_title = itemView.findViewById(R.id.textView_title);
         textView_serving = itemView.findViewById(R.id.textView_serving);
-//        textView_like = itemView.findViewById(R.id.textView_like);
         textView_time = itemView.findViewById(R.id.textView_time);
         imageView_food = itemView.findViewById(R.id.imageView_food);
     }
 }
+
