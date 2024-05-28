@@ -31,7 +31,11 @@ import android.widget.Toast;
 import com.example.hoangvancook.Adapters.RandomRecipeAdapter;
 import com.example.hoangvancook.Listeners.RandomRecipeResponseListener;
 import com.example.hoangvancook.Listeners.RecipeClickListener;
+import com.example.hoangvancook.Listeners.RecipeLongClickListener;
 import com.example.hoangvancook.Models.RandomRecipeApiResponse;
+import com.example.hoangvancook.Models.Recipe;
+import com.example.hoangvancook.Models.RecipeBookmark;
+import com.example.hoangvancook.Models.RecipeDatabase;
 import com.example.hoangvancook.SearchActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -69,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         for (String option : filterOptions) {
             addChip(option);
         }
+
         toggleFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,19 +107,24 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                if(item.getItemId()==R.id.action_search)
-                {
-                    Intent intent = new Intent(HomeActivity.this,SearchActivity.class);
-                    startActivity(intent);
+                int itemId = item.getItemId();
+                if (itemId == R.id.action_bookmark) {
+                    Intent bookmarkintent = new Intent(HomeActivity.this, BookmarkActivity.class);
+                    startActivity(bookmarkintent);
+                    return true;
+                } else if (itemId == R.id.action_search) {
+                    Intent searchintent = new Intent(HomeActivity.this, SearchActivity.class);
+                    startActivity(searchintent);
+                    return true;
                 }
                 return false;
             }
         });
-
     }
     public void checkInternetAndLoadData() {
         if (isInternetConnected()) {
@@ -172,8 +182,7 @@ public class HomeActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
-
-            randomRecipeAdapter = new RandomRecipeAdapter(HomeActivity.this, response.recipes, recipeClickListener);
+            randomRecipeAdapter = new RandomRecipeAdapter(HomeActivity.this, response.recipes, recipeClickListener,recipeLongClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);
         }
         @Override
@@ -207,5 +216,44 @@ public class HomeActivity extends AppCompatActivity {
                     .putExtra("id", id));
         }
     };
+    private final RecipeLongClickListener recipeLongClickListener = new RecipeLongClickListener() {
+        @Override
+        public void onRecipeLongClick(Recipe recipe) {
+            showBookmarkDialog(recipe);
+        }
+    };
+    private void showBookmarkDialog(final Recipe recipe) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add to Bookmark");
+        builder.setMessage("Do you want to add this recipe to your bookmarks?");
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addToBookmarks(recipe);
+                Toast.makeText(HomeActivity.this, "Recipe added to bookmarks", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.create().show();
+    }
+    public void addToBookmarks(Recipe recipe) {
+        // Implement logic to add the recipe to bookmarks
+        // This could be saving to a database or shared preferences
+        RecipeBookmark recipeBookmark = new RecipeBookmark(
+                recipe.id,
+                recipe.title,
+                recipe.image,
+                recipe.servings,
+                recipe.readyInMinutes
+        );
+
+        // Insert bookmark into the database
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RecipeDatabase.getInstance(HomeActivity.this).recipeBookmarkDao().insert(recipeBookmark);
+            }
+        }).start();
+    }
 
 }

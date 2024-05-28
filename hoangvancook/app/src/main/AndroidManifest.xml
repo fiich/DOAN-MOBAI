@@ -35,6 +35,9 @@
             android:name=".SearchActivity"
             android:exported="false">
         </activity>
+        <activity android:name=".BookmarkActivity"
+            android:exported="false">
+        </activity>
         <activity
             android:name=".HomeActivity"
             android:exported="true">

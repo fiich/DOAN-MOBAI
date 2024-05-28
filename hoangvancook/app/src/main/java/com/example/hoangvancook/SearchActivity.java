@@ -3,7 +3,9 @@ package com.example.hoangvancook;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,6 +16,7 @@ import com.example.hoangvancook.Listeners.Clickitem;
 import com.example.hoangvancook.Listeners.SearchResponseListener;
 import com.example.hoangvancook.Models.Result;
 import com.example.hoangvancook.Models.SearchResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SearchActivity extends AppCompatActivity {
     private RequestManager requestManager_search_item;
@@ -21,6 +24,7 @@ public class SearchActivity extends AppCompatActivity {
     private SearchAdapter searchAdapter;
 
     public SearchView search ;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,26 @@ public class SearchActivity extends AppCompatActivity {
         Addcontrol();
 
         Addevent();
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setSelectedItemId(R.id.action_search);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.action_home) {
+                    Intent homeintent = new Intent(SearchActivity.this, HomeActivity.class);
+                    startActivity(homeintent);
+                    return true;
+
+                } else if (itemId == R.id.action_bookmark) {
+                    Intent bookmarkintent = new Intent(SearchActivity.this, BookmarkActivity.class);
+                    startActivity(bookmarkintent);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void Addevent() {

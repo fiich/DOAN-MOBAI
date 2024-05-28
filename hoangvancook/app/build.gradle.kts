@@ -45,6 +45,9 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.17")
 
+    implementation ("androidx.room:room-runtime:2.4.1")
+    annotationProcessor ("androidx.room:room-compiler:2.4.1")
+
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
     implementation("androidx.activity:activity:1.8.0")
     implementation("com.google.firebase:firebase-auth:22.3.1")
@@ -56,3 +59,4 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.1.0")
 
 }
+
