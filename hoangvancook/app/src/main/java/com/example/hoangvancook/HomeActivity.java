@@ -1,6 +1,6 @@
 package com.example.hoangvancook;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,7 +12,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -21,10 +21,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
+
 import android.view.View;
 
-import android.widget.Button;
+
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -46,6 +46,7 @@ import com.google.android.material.chip.ChipGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
     RequestManager manager;
@@ -58,7 +59,6 @@ public class HomeActivity extends AppCompatActivity {
     NestedScrollView nestedScrollView;
     Dialog dialog;
     BottomNavigationView bottomNavigationView;
-    Button button_bookmark;
 
 
 
@@ -71,60 +71,46 @@ public class HomeActivity extends AppCompatActivity {
         findViews();
 
         String[] filterOptions = getResources().getStringArray(R.array.tags);
-        // Add chips for each item in the string array
+
         for (String option : filterOptions) {
             addChip(option);
         }
-        toggleFilterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleFilterVisibility();
-            }
-        });
+        toggleFilterButton.setOnClickListener(v -> toggleFilterVisibility());
 
         final SwipeRefreshLayout pullToRefresh = findViewById(R.id.pullToRefresh);
-        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                checkInternetAndLoadData();
-                pullToRefresh.setRefreshing(false);
-            }
+        pullToRefresh.setOnRefreshListener(() -> {
+            checkInternetAndLoadData();
+            pullToRefresh.setRefreshing(false);
         });
 
-        chipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
-            @Override
-            public void onCheckedChanged(@NonNull ChipGroup group, @NonNull List<Integer> checkedIds) {
-                tags.clear(); // Clear existing tags
-                // Iterate over the checked chips and add their text to the tags list
-                for (int i = 0; i < group.getChildCount(); i++) {
-                    Chip chip = (Chip) group.getChildAt(i);
-                    if (chip.isChecked()) {
-                        tags.add(chip.getText().toString());
-                    }
+        chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+            tags.clear(); // Clear existing tags
+            // Iterate over the checked chips and add their text to the tags list
+            for (int i = 0; i < group.getChildCount(); i++) {
+                Chip chip = (Chip) group.getChildAt(i);
+                if (chip.isChecked()) {
+                    tags.add(chip.getText().toString());
                 }
-                // Call API to get random recipes with the selected tags
-                checkInternetAndLoadData();
             }
+            // Call API to get random recipes with the selected tags
+            checkInternetAndLoadData();
         });
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.action_home);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == R.id.action_bookmark) {
-                    Intent bookmarkintent = new Intent(HomeActivity.this, BookmarkActivity.class);
-                    startActivity(bookmarkintent);
-                    return true;
-                } else if (itemId == R.id.action_search) {
-                    Intent searchintent = new Intent(HomeActivity.this, SearchActivity.class);
-                    startActivity(searchintent);
-                    return true;
-                }
-                return false;
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_bookmark) {
+                Intent bookmarkintent = new Intent(HomeActivity.this, BookmarkActivity.class);
+                startActivity(bookmarkintent);
+                return true;
+            } else if (itemId == R.id.action_search) {
+                Intent searchintent = new Intent(HomeActivity.this, SearchActivity.class);
+                startActivity(searchintent);
+                return true;
             }
+            return false;
         });
     }
     public void checkInternetAndLoadData() {
@@ -144,26 +130,18 @@ public class HomeActivity extends AppCompatActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_error,null);
         builder.setView(dialogView);
         builder.setMessage(errorMessage);
-        builder.setPositiveButton("Wi-Fi Settings", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent wifiSettingsIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
-                startActivity(wifiSettingsIntent);
-            }
+        builder.setPositiveButton("Wi-Fi Settings", (dialog, which) -> {
+            Intent wifiSettingsIntent = new Intent(Settings.ACTION_WIFI_SETTINGS);
+            startActivity(wifiSettingsIntent);
         });
-        builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                checkInternetAndLoadData();
-            }
-        });
+        builder.setNegativeButton("Retry", (dialog, which) -> checkInternetAndLoadData());
         builder.create();
         builder.show();
     }
 
     public void loadData(){
         dialog = new Dialog(this);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.dialog_loading);
         dialog.create();
         dialog.show();
@@ -210,72 +188,41 @@ public class HomeActivity extends AppCompatActivity {
         chipGroup.addView(chip);
     }
 
-    private  final RecipeClickListener recipeClickListener = new RecipeClickListener() {
-        @Override
-        public void onRecipeClick(String id) {
-            startActivity(new Intent(HomeActivity.this, RecipeDetailsActivity.class)
-                    .putExtra("id", id));
-        }
-    };
-    private final RecipeLongClickListener recipeLongClickListener = new RecipeLongClickListener() {
-        @Override
-        public void onRecipeLongClick(Recipe recipe) {
-            showBookmarkDialog(recipe);
-        }
-    };
+    private  final RecipeClickListener recipeClickListener = id -> startActivity(new Intent(HomeActivity.this, RecipeDetailsActivity.class)
+            .putExtra("id", id));
+    private final RecipeLongClickListener recipeLongClickListener = this::showBookmarkDialog;
 
     private void showBookmarkDialog(final Recipe recipe) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add to Bookmark");
         builder.setMessage("Do you want to add this recipe to your bookmarks?");
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                addToBookmarks(recipe);
-                Toast.makeText(HomeActivity.this, "Recipe added to bookmarks", Toast.LENGTH_SHORT).show();
-            }
+        builder.setPositiveButton("Add", (dialog, which) -> {
+            addToBookmarks(recipe);
+            Toast.makeText(HomeActivity.this, "Recipe added to bookmarks", Toast.LENGTH_SHORT).show();
         });
         builder.setNegativeButton("Cancel", null);
         builder.create().show();
     }
     public void addToBookmarks(Recipe recipe) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // Check if the recipe is already bookmarked
-                RecipeBookmark existingBookmark = RecipeDatabase.getInstance(HomeActivity.this)
+        new Thread(() -> {
+            RecipeBookmark existingBookmark = RecipeDatabase.getInstance(HomeActivity.this)
+                    .recipeBookmarkDao()
+                    .getBookmarkByRecipeId(recipe.id);
+
+            if (existingBookmark == null) {
+                RecipeBookmark recipeBookmark = new RecipeBookmark(
+                        recipe.id,
+                        recipe.title,
+                        recipe.image,
+                        recipe.servings,
+                        recipe.readyInMinutes
+                );
+                RecipeDatabase.getInstance(HomeActivity.this)
                         .recipeBookmarkDao()
-                        .getBookmarkByRecipeId(recipe.id);
-
-                if (existingBookmark == null) {
-                    // If the recipe is not already bookmarked, add it to bookmarks
-                    RecipeBookmark recipeBookmark = new RecipeBookmark(
-                            recipe.id,
-                            recipe.title,
-                            recipe.image,
-                            recipe.servings,
-                            recipe.readyInMinutes
-                    );
-
-                    RecipeDatabase.getInstance(HomeActivity.this)
-                            .recipeBookmarkDao()
-                            .insert(recipeBookmark);
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(HomeActivity.this, "Recipe added to bookmarks", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    // If the recipe is already bookmarked, show a message
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(HomeActivity.this, "Recipe already bookmarked", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                        .insert(recipeBookmark);
+                runOnUiThread(() -> Toast.makeText(HomeActivity.this, "Recipe added to bookmarks", Toast.LENGTH_SHORT).show());
+            } else {
+                runOnUiThread(() -> Toast.makeText(HomeActivity.this, "Recipe already bookmarked", Toast.LENGTH_SHORT).show());
             }
         }).start();
     }
