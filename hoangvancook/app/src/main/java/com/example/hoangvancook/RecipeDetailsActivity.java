@@ -10,10 +10,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ import com.example.hoangvancook.Listeners.SimilarRecipesListener;
 import com.example.hoangvancook.Models.InstructionsResponse;
 import com.example.hoangvancook.Models.RecipeDetailsResponse;
 import com.example.hoangvancook.Models.SimilarRecipeResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,14 +47,42 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     IngredientsAdapter ingredientsAdapter;
     InstructionsAdapter instructionsAdapter;
     SimilarRecipeAdapter similarRecipeAdapter;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
+        Intent intent = getIntent();
+        String recipeId = intent.getStringExtra("id");
+
         findViews();
         checkInternetAndLoadData();
+
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setSelectedItemId(R.id.action_bookmark);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == R.id.action_home) {
+                    Intent homeintent = new Intent(RecipeDetailsActivity.this, HomeActivity.class);
+                    startActivity(homeintent);
+                    return true;
+                } else if (itemId == R.id.action_search) {
+                    Intent searchintent = new Intent(RecipeDetailsActivity.this, SearchActivity.class);
+                    startActivity(searchintent);
+                    return true;
+                }
+                else if (itemId == R.id.action_bookmark){
+                    Intent bookmarkintent = new Intent(RecipeDetailsActivity.this, BookmarkActivity.class);
+                    startActivity(bookmarkintent);
+                    return true;
+                }
+                return false;
+            }
+        });
 
     }
     public void checkInternetAndLoadData() {

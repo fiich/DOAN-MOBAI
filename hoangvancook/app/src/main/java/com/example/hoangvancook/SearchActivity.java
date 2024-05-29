@@ -33,6 +33,8 @@ public class SearchActivity extends AppCompatActivity {
         Addcontrol();
 
         Addevent();
+
+
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setSelectedItemId(R.id.action_search);
 

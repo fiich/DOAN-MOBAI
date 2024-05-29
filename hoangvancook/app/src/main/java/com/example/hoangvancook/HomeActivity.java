@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
     NestedScrollView nestedScrollView;
     Dialog dialog;
     BottomNavigationView bottomNavigationView;
+    Button button_bookmark;
 
 
 
@@ -73,7 +75,6 @@ public class HomeActivity extends AppCompatActivity {
         for (String option : filterOptions) {
             addChip(option);
         }
-
         toggleFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,6 +223,7 @@ public class HomeActivity extends AppCompatActivity {
             showBookmarkDialog(recipe);
         }
     };
+
     private void showBookmarkDialog(final Recipe recipe) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add to Bookmark");
@@ -237,23 +239,46 @@ public class HomeActivity extends AppCompatActivity {
         builder.create().show();
     }
     public void addToBookmarks(Recipe recipe) {
-        // Implement logic to add the recipe to bookmarks
-        // This could be saving to a database or shared preferences
-        RecipeBookmark recipeBookmark = new RecipeBookmark(
-                recipe.id,
-                recipe.title,
-                recipe.image,
-                recipe.servings,
-                recipe.readyInMinutes
-        );
-
-        // Insert bookmark into the database
         new Thread(new Runnable() {
             @Override
             public void run() {
-                RecipeDatabase.getInstance(HomeActivity.this).recipeBookmarkDao().insert(recipeBookmark);
+                // Check if the recipe is already bookmarked
+                RecipeBookmark existingBookmark = RecipeDatabase.getInstance(HomeActivity.this)
+                        .recipeBookmarkDao()
+                        .getBookmarkByRecipeId(recipe.id);
+
+                if (existingBookmark == null) {
+                    // If the recipe is not already bookmarked, add it to bookmarks
+                    RecipeBookmark recipeBookmark = new RecipeBookmark(
+                            recipe.id,
+                            recipe.title,
+                            recipe.image,
+                            recipe.servings,
+                            recipe.readyInMinutes
+                    );
+
+                    RecipeDatabase.getInstance(HomeActivity.this)
+                            .recipeBookmarkDao()
+                            .insert(recipeBookmark);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(HomeActivity.this, "Recipe added to bookmarks", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // If the recipe is already bookmarked, show a message
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(HomeActivity.this, "Recipe already bookmarked", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         }).start();
     }
+
 
 }
