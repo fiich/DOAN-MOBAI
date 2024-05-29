@@ -11,6 +11,23 @@ public class RecipeBookmark {
     public int recipeId;
     public String title;
     public String image;
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int servings;
     public int readyInMinutes;
 

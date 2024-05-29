@@ -95,21 +95,12 @@
             android:id="@+id/layout_anim_smoothsearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/pullToRefreshsearch"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nestedScrollViewsearch"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_search"
+                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_search"
-                    android:layout_margin="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                </androidx.recyclerview.widget.RecyclerView>
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>
     <View

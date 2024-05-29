@@ -2,7 +2,6 @@ package com.example.hoangvancook;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,7 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.example.hoangvancook.Adapters.IngredientsAdapter;
 import com.example.hoangvancook.Adapters.InstructionsAdapter;
 import com.example.hoangvancook.Adapters.SimilarRecipeAdapter;
@@ -29,6 +27,7 @@ import com.example.hoangvancook.Listeners.SimilarRecipesListener;
 import com.example.hoangvancook.Models.InstructionsResponse;
 import com.example.hoangvancook.Models.RecipeDetailsResponse;
 import com.example.hoangvancook.Models.SimilarRecipeResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,14 +43,38 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     IngredientsAdapter ingredientsAdapter;
     InstructionsAdapter instructionsAdapter;
     SimilarRecipeAdapter similarRecipeAdapter;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
+
+
         findViews();
         checkInternetAndLoadData();
+
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setSelectedItemId(R.id.action_bookmark);
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_home) {
+                Intent homeintent = new Intent(RecipeDetailsActivity.this, HomeActivity.class);
+                startActivity(homeintent);
+                return true;
+            } else if (itemId == R.id.action_search) {
+                Intent searchintent = new Intent(RecipeDetailsActivity.this, SearchActivity.class);
+                startActivity(searchintent);
+                return true;
+            }
+            else if (itemId == R.id.action_bookmark){
+                Intent bookmarkintent = new Intent(RecipeDetailsActivity.this, BookmarkActivity.class);
+                startActivity(bookmarkintent);
+                return true;
+            }
+            return false;
+        });
 
     }
     public void checkInternetAndLoadData() {
@@ -83,7 +106,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     private void loadData(){
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_loading);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         id = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("id")));
@@ -151,10 +174,5 @@ public class RecipeDetailsActivity extends AppCompatActivity {
             Toast.makeText(RecipeDetailsActivity.this, message,Toast.LENGTH_SHORT).show();
         }
     };
-    private final RecipeClickListener recipeClickListener = new RecipeClickListener() {
-        @Override
-        public void onRecipeClick(String id) {
-            startActivity(new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class).putExtra("id",id));
-        }
-    };
+    private final RecipeClickListener recipeClickListener = id -> startActivity(new Intent(RecipeDetailsActivity.this, RecipeDetailsActivity.class).putExtra("id",id));
 }

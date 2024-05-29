@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">hoangvancook</string>
-<!--    <string name="api_key" tools:ignore="Typos">e099198459ed43eb84abcc5b328ecf11</string>           //kinjaz-->
+<!--    <string name="api_key">e099198459ed43eb84abcc5b328ecf11</string>           //kinjaz-->
     <string name="api_key">d6fd8c7c56334a99b143218247eb4158</string>                   //son0202966
-    <!--    <string name="api_key">789e6321afd54382b44b09ec97576f13</string>-->
+<!--    <string name="api_key">789e6321afd54382b44b09ec97576f13</string>-->
     <string-array name="tags">
         <item>main course</item>
         <item>side dish</item>
