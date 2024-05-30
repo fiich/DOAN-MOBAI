@@ -3,10 +3,7 @@ package com.example.hoangvancook;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -18,12 +15,10 @@ import com.example.hoangvancook.Listeners.SearchResponseListener;
 import com.example.hoangvancook.Models.SearchResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Objects;
-
 public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerView_search_item;
     private Dialog dialog;
-    public SearchView search;
+    public SearchView search ;
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -59,6 +54,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void Addevent() {
+
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -73,27 +69,29 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
-
     private void tim_kiem_onInput(String query) {
         RequestManager requestManager_search_item = new RequestManager(this);
         requestManager_search_item.searchFood(searchResponseListener, query, "");
     }
-
     private void tim_kiem_onSubmit(String query) {
         RequestManager requestManager_search_item = new RequestManager(this);
         requestManager_search_item.searchFood(searchResponseListener, query, "submit");
     }
+    private void tim_kiem(String query) {
+//
+        RequestManager requestManager_search_item = new RequestManager(this);
+        requestManager_search_item.searchFood(searchResponseListener,query," ");
+    }
 
-    private SearchResponseListener searchResponseListener = new SearchResponseListener() {
+    private final SearchResponseListener searchResponseListener=new SearchResponseListener() {
         @Override
         public void didFetch(SearchResponse response, String message) {
             SearchAdapter searchAdapter = new SearchAdapter(SearchActivity.this, result -> {
                 Intent intent = new Intent(SearchActivity.this, RecipeDetailsActivity.class);
                 intent.putExtra("id", String.valueOf(result.getId()));
                 startActivity(intent);
-            }, response.getResults());
 
-            // Change the number of columns to 2
+            }, response.getResults());
             recyclerView_search_item.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
             recyclerView_search_item.setAdapter(searchAdapter);
         }
@@ -104,11 +102,8 @@ public class SearchActivity extends AppCompatActivity {
         }
     };
 
-
     private void Addcontrol() {
         search = findViewById(R.id.searchView);
         recyclerView_search_item = findViewById(R.id.recycler_search);
     }
-
-
 }

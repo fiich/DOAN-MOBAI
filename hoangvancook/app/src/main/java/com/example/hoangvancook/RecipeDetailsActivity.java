@@ -56,7 +56,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         checkInternetAndLoadData();
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.setSelectedItemId(R.id.action_bookmark);
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_home) {
@@ -104,15 +104,13 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         builder.show();
     }
     private void loadData(){
-        // Initialize manager before using it
-        manager = new RequestManager(this);
-
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_loading);
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
 
         id = Integer.parseInt(Objects.requireNonNull(getIntent().getStringExtra("id")));
+        manager = new RequestManager(this);
         manager.getRecipeDetails(recipeDetailsListener, id);
         manager.getInstructions(instructionsListener,id);
         manager.getSimilarRecipes(similarRecipesListener,id);

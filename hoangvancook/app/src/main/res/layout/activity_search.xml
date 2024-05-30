@@ -39,12 +39,14 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
                     android:gravity="center"
-                    android:text="SearchFood"                 
+                    android:text="Search"
                     android:textColor="@color/orange"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     tools:ignore="RelativeOverlap">
-               </TextView>
+
+                </TextView>
+
                 <ImageView
                     android:id="@+id/toggleFilterButtonsearch"
                     android:layout_width="wrap_content"
@@ -53,7 +55,9 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="4dp"
                     android:src="@drawable/ic_filter"
-                    tools:ignore="ContentDescription"></ImageView>
+                    tools:ignore="ContentDescription">
+
+                </ImageView>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
@@ -106,9 +110,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_search"
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>
@@ -124,8 +129,6 @@
         android:layout_height="80dp"
         app:itemBackground="@color/bg_gray"
         app:itemIconTint="@color/orange"
-        app:menu="@menu/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"/>
+        app:menu="@menu/bottom_navigation" />
 </LinearLayout>
 

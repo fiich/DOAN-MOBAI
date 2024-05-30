@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class RecipeBookmark {
     @PrimaryKey(autoGenerate = true)
     public int id;
-
+    
     public int recipeId;
     public String title;
     public String image;
