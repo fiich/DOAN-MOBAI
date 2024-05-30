@@ -49,6 +49,10 @@ public class BookmarkActivity extends AppCompatActivity {
                 Intent searchintent = new Intent(BookmarkActivity.this, SearchActivity.class);
                 startActivity(searchintent);
                 return true;
+            } else if (itemId == R.id.action_profile) {
+                Intent searchintent = new Intent(BookmarkActivity.this, Profile.class);
+                startActivity(searchintent);
+                return true;
             }
             return false;
         });

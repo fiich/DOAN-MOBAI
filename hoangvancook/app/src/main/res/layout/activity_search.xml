@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_gray"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/BodyLayoutsearch"
         android:layout_width="match_parent"
@@ -13,20 +14,23 @@
         android:layout_weight="1"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="parent">
+
         <androidx.appcompat.widget.Toolbar
 
             android:id="@+id/appBarLayoutsearch"
             android:layout_width="match_parent"
             android:layout_height="64dp"
+            android:background="@color/bg_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/bg_gray">
+            app:layout_constraintTop_toTopOf="parent">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -39,8 +43,8 @@
                     android:textColor="@color/orange"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    tools:ignore="RelativeOverlap">
-                </TextView>
+                    tools:ignore="RelativeOverlap"></TextView>
+
                 <ImageView
                     android:id="@+id/toggleFilterButtonsearch"
                     android:layout_width="wrap_content"
@@ -49,69 +53,75 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="4dp"
                     android:src="@drawable/ic_filter"
-                    tools:ignore="ContentDescription">
-                </ImageView>
+                    tools:ignore="ContentDescription"></ImageView>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.cardview.widget.CardView
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/orange"
-            android:layout_margin="8dp"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="8dp"
+            app:cardBackgroundColor="@color/orange"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="24dp">
+
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView"
-                app:queryHint="Search Your Food...."
-                app:iconifiedByDefault="false"
-                app:searchIcon="@drawable/ic_search"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search Your Food...."
+                app:searchIcon="@drawable/ic_search" />
 
         </androidx.cardview.widget.CardView>
 
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollViewsearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_gray"
             android:scrollbars="none"
-            app:layout_constraintTop_toBottomOf="@id/appBarLayoutsearch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/bg_gray"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            app:layout_constraintTop_toBottomOf="@id/appBarLayoutsearch">
+
             <HorizontalScrollView
                 android:id="@+id/chipFilterScrollViewsearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupsearch"
-                    android:padding="8dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
             </HorizontalScrollView>
         </androidx.core.widget.NestedScrollView>
+
         <LinearLayout
             android:id="@+id/layout_anim_smoothsearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_search"
-                android:layout_margin="5dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"></androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/white" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         app:itemBackground="@color/bg_gray"
         app:itemIconTint="@color/orange"
-        app:menu="@menu/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"/>
+        app:menu="@menu/bottom_navigation" />
 </LinearLayout>

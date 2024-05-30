@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">hoangvancook</string>
+    <string name="app_name">HuceCook</string>
 <!--    <string name="api_key">e099198459ed43eb84abcc5b328ecf11</string>           //kinjaz-->
     <string name="api_key">d6fd8c7c56334a99b143218247eb4158</string>                   //son0202966
 <!--    <string name="api_key">789e6321afd54382b44b09ec97576f13</string>-->
@@ -21,4 +21,11 @@
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="facebook_app_id">766239778985528</string>
+    <string name="fb_login_protocol_scheme">fb766239778985528</string>
+    <string name="facebook_client_token">33ce02b40a6eda956ab85ecc31a57bcb</string>
+    <string name="default_web_client_id">80536065311-0tf68gcsspo09hboamb7b8eltf0bvoug.apps.googleusercontent.com</string>
+
+
 </resources>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_gray"
+    tools:context=".Profile_Detail">
+
+    <!-- Profile Avatar and Change Photo Button -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile_avt"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_account"
+            app:civ_border_color="@android:color/black"
+            app:civ_border_width="2dp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btn_changePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Photo"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null"
+            android:background="@drawable/edit_button"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"/>
+    </LinearLayout>
+
+    <!-- Name TextView -->
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Name EditText -->
+    <EditText
+        android:id="@+id/edt_profile_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter Name"
+        android:textColor="@android:color/black"
+        android:background="@drawable/edit_text"
+        android:padding="8dp"
+        android:maxLength="50"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Email TextView -->
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_profile_name"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Email EditText -->
+    <EditText
+        android:id="@+id/edt_profile_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Enter Email"
+        android:textColor="@android:color/black"
+        android:background="@drawable/edit_text"
+        android:padding="8dp"
+        android:maxLength="100"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/tv_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/edt_profile_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null"
+            android:background="@drawable/edit_button"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null"
+            android:background="@drawable/edit_button"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
