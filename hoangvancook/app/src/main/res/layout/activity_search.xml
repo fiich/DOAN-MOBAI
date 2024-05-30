@@ -39,7 +39,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
                     android:gravity="center"
-                    android:text="lmao"
+                    android:text="Search"
                     android:textColor="@color/orange"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -123,5 +123,8 @@
         android:layout_height="80dp"
         app:itemBackground="@color/bg_gray"
         app:itemIconTint="@color/orange"
-        app:menu="@menu/bottom_navigation" />
+        app:menu="@menu/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"/>
 </LinearLayout>
+
