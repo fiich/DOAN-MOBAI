@@ -6,4 +6,5 @@ import com.example.hoangvancook.Models.SearchResponse;
 public interface SearchResponseListener {
     void didFetch(SearchResponse response, String message);
     void didError(String message);
+
 }

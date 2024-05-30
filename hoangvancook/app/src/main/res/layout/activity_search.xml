@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:gravity="center_vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -35,12 +36,11 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
                     android:gravity="center"
-                    android:text="lmao"
+                    android:text="SearchFood"
                     android:textColor="@color/orange"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    tools:ignore="RelativeOverlap">
-                </TextView>
+                    tools:ignore="RelativeOverlap"></TextView>
                 <ImageView
                     android:id="@+id/toggleFilterButtonsearch"
                     android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
 
         <androidx.cardview.widget.CardView
             app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/orange"
+            app:cardBackgroundColor="@color/orange_500"
             android:layout_margin="8dp"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
@@ -98,7 +98,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_search"
                 android:layout_margin="5dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>

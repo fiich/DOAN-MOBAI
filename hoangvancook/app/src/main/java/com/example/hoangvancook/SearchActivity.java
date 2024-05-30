@@ -1,8 +1,12 @@
 
 package com.example.hoangvancook;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -14,10 +18,12 @@ import com.example.hoangvancook.Listeners.SearchResponseListener;
 import com.example.hoangvancook.Models.SearchResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Objects;
+
 public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerView_search_item;
-
-    public SearchView search ;
+    private Dialog dialog;
+    public SearchView search;
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -49,37 +55,42 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void Addevent() {
-
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                tim_kiem(query);
+                tim_kiem_onSubmit(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                tim_kiem_onInput(newText);
+                return true;
             }
         });
     }
 
-    private void tim_kiem(String query) {
-//
+    private void tim_kiem_onInput(String query) {
         RequestManager requestManager_search_item = new RequestManager(this);
-        requestManager_search_item.searchFood(searchResponseListener,query);
+        requestManager_search_item.searchFood(searchResponseListener, query, "");
     }
 
-    private final SearchResponseListener searchResponseListener=new SearchResponseListener() {
+    private void tim_kiem_onSubmit(String query) {
+        RequestManager requestManager_search_item = new RequestManager(this);
+        requestManager_search_item.searchFood(searchResponseListener, query, "submit");
+    }
+
+    private SearchResponseListener searchResponseListener = new SearchResponseListener() {
         @Override
         public void didFetch(SearchResponse response, String message) {
             SearchAdapter searchAdapter = new SearchAdapter(SearchActivity.this, result -> {
                 Intent intent = new Intent(SearchActivity.this, RecipeDetailsActivity.class);
-                intent.putExtra("id", result.getId());
+                intent.putExtra("id", String.valueOf(result.getId()));
                 startActivity(intent);
-
             }, response.getResults());
-            recyclerView_search_item.setLayoutManager(new GridLayoutManager(SearchActivity.this, 1));
+
+            // Change the number of columns to 2
+            recyclerView_search_item.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
             recyclerView_search_item.setAdapter(searchAdapter);
         }
 
@@ -89,10 +100,10 @@ public class SearchActivity extends AppCompatActivity {
         }
     };
 
+
     private void Addcontrol() {
         search = findViewById(R.id.searchView);
         recyclerView_search_item = findViewById(R.id.recycler_search);
-
     }
 
 
