@@ -109,6 +109,10 @@ public class HomeActivity extends AppCompatActivity {
                 Intent searchintent = new Intent(HomeActivity.this, SearchActivity.class);
                 startActivity(searchintent);
                 return true;
+            } else if (itemId == R.id.action_profile) {
+                Intent searchintent = new Intent(HomeActivity.this, Profile.class);
+                startActivity(searchintent);
+                return true;
             }
             return false;
         });
