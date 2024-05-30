@@ -1,6 +1,8 @@
 package com.example.hoangvancook.Adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +35,16 @@ public class InstructionsIngredientsAdapter extends RecyclerView.Adapter<Instruc
 
     @Override
     public void onBindViewHolder(@NonNull InstructionIngredientsViewHolder holder, int position) {
+        if(TextUtils.isEmpty(list.get(position).image)){
+            Log.d("TAG", "onBindViewHolder: "+list.get(position).image);
+            holder.imageView_instructions_step_item.setImageResource(R.drawable.image_error);
+        } else {
+            Picasso.get().load(list.get(position).image)
+                    .placeholder(R.drawable.image_error)
+                    .error(R.drawable.image_error)
+                    .into(holder.imageView_instructions_step_item);
+        }
 
-        Picasso.get().load(list.get(position).image)
-                .placeholder(R.drawable.image_error)
-                .error(R.drawable.image_error)
-                .into(holder.imageView_instructions_step_item);
         holder.textView_instructions_step_item.setText(list.get(position).name);
         holder.textView_instructions_step_item.setSelected(true);
     }

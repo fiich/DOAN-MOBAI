@@ -1,6 +1,9 @@
 package com.example.hoangvancook;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 
 import androidx.annotation.NonNull;
 
@@ -17,6 +20,7 @@ import com.example.hoangvancook.Models.SearchResponse;
 import com.example.hoangvancook.Models.SimilarRecipeResponse;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,17 +41,17 @@ public class RequestManager {
         this.context = context;
     }
 
-    public void getRandomRecipes(RandomRecipeResponseListener listener, List<String> tags){
+    public void getRandomRecipes(RandomRecipeResponseListener listener, List<String> tags) {
         CallRandomRecipes callRandomRecipes = retrofit.create(CallRandomRecipes.class);
         Call<RandomRecipeApiResponse> call = callRandomRecipes.callRandomRecipe(context.getString(R.string.api_key), "10", tags);
         call.enqueue(new Callback<RandomRecipeApiResponse>() {
             @Override
             public void onResponse(@NonNull Call<RandomRecipeApiResponse> call, @NonNull Response<RandomRecipeApiResponse> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     listener.didError(response.message());
                     return;
                 }
-                listener.didFetch(response.body(),response.message());
+                listener.didFetch(response.body(), response.message());
             }
 
             @Override
@@ -57,13 +61,13 @@ public class RequestManager {
         });
     }
 
-    public void getRecipeDetails(RecipeDetailsListener listener, int id){
+    public void getRecipeDetails(RecipeDetailsListener listener, int id) {
         CallRecipeDetails callRecipeDetails = retrofit.create(CallRecipeDetails.class);
         Call<RecipeDetailsResponse> call = callRecipeDetails.callRecipeDetails(id, context.getString(R.string.api_key));
         call.enqueue(new Callback<RecipeDetailsResponse>() {
             @Override
             public void onResponse(@NonNull Call<RecipeDetailsResponse> call, @NonNull Response<RecipeDetailsResponse> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     listener.didError(response.message());
                     return;
                 }
@@ -76,18 +80,20 @@ public class RequestManager {
             }
         });
     }
-    public void getInstructions(InstructionsListener listener, int id){
+
+    public void getInstructions(InstructionsListener listener, int id) {
         CallInstructions callInstructions = retrofit.create(CallInstructions.class);
-        Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id,context.getString(R.string.api_key));
+        Call<List<InstructionsResponse>> call = callInstructions.callInstructions(id, context.getString(R.string.api_key));
         call.enqueue(new Callback<List<InstructionsResponse>>() {
             @Override
             public void onResponse(@NonNull Call<List<InstructionsResponse>> call, @NonNull Response<List<InstructionsResponse>> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     listener.didError(response.message());
                     return;
                 }
                 listener.didFetch(response.body(), response.message());
             }
+
             @Override
             public void onFailure(@NonNull Call<List<InstructionsResponse>> call, @NonNull Throwable throwable) {
                 listener.didError(throwable.getMessage());
@@ -95,14 +101,23 @@ public class RequestManager {
         });
 
     }
-    public void searchFood (SearchResponseListener listener, String query) {
-        Search searchFood = retrofit.create(Search.class);
-        Call<SearchResponse> call = searchFood.SearchResponse("f6cc4597a30f46de9d5251182f968f32",query);
+
+    public void searchFood(SearchResponseListener listener, String query, String action) {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_loading);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        if(action == "submit"){
+            dialog.show();
+        }
+
+        Search search = retrofit.create(Search.class);
+        Call<SearchResponse> call = search.SearchResponse(context.getString(R.string.api_key), query);
         call.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(@NonNull Call<SearchResponse> call, @NonNull Response<SearchResponse> response) {
-                if(response.isSuccessful()){
-                    listener.didFetch(response.body(),response.message());
+                if (response.isSuccessful()) {
+                    listener.didFetch(response.body(), response.message());
+                    dialog.dismiss();
                 }
             }
 
@@ -112,13 +127,14 @@ public class RequestManager {
             }
         });
     }
-    public void getSimilarRecipes(SimilarRecipesListener listener, int id){
+
+    public void getSimilarRecipes(SimilarRecipesListener listener, int id) {
         CallSimilarRecipes callSimilarRecipes = retrofit.create(CallSimilarRecipes.class);
-        Call<List<SimilarRecipeResponse>> call =  callSimilarRecipes.callSimilarRecipe(id,"5",context.getString(R.string.api_key));
+        Call<List<SimilarRecipeResponse>> call = callSimilarRecipes.callSimilarRecipe(id, "5", context.getString(R.string.api_key));
         call.enqueue(new Callback<List<SimilarRecipeResponse>>() {
             @Override
             public void onResponse(@NonNull Call<List<SimilarRecipeResponse>> call, @NonNull Response<List<SimilarRecipeResponse>> response) {
-                if(!response.isSuccessful()){
+                if (!response.isSuccessful()) {
                     listener.didError(response.message());
                     return;
                 }
@@ -131,29 +147,33 @@ public class RequestManager {
             }
         });
     }
-    private interface CallRandomRecipes{
+
+    private interface CallRandomRecipes {
         @GET("recipes/random")
         Call<RandomRecipeApiResponse> callRandomRecipe(
-            @Query("apiKey") String apiKey,
-            @Query("number") String number,
-            @Query("tags") List<String> tags
+                @Query("apiKey") String apiKey,
+                @Query("number") String number,
+                @Query("tags") List<String> tags
         );
     }
-    private interface CallRecipeDetails{
+
+    private interface CallRecipeDetails {
         @GET("recipes/{id}/information")
         Call<RecipeDetailsResponse> callRecipeDetails(
                 @Path("id") int id,
                 @Query("apiKey") String apiKey
         );
     }
-    private interface CallInstructions{
+
+    private interface CallInstructions {
         @GET("recipes/{id}/analyzedInstructions")
         Call<List<InstructionsResponse>> callInstructions(
-            @Path("id") int id,
-            @Query("apiKey") String apiKey
+                @Path("id") int id,
+                @Query("apiKey") String apiKey
         );
     }
-    private interface Search{
+
+    private interface Search {
         @GET("recipes/complexSearch")
         Call<SearchResponse> SearchResponse(
                 @Query("apiKey") String apiKey,
@@ -161,7 +181,8 @@ public class RequestManager {
 
         );
     }
-    private interface CallSimilarRecipes{
+
+    private interface CallSimilarRecipes {
         @GET("recipes/{id}/similar")
         Call<List<SimilarRecipeResponse>> callSimilarRecipe(
                 @Path("id") int id,
