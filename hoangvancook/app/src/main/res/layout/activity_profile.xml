@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Profile"
+    android:background="@color/black">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:elevation="4dp"
+        android:background="@drawable/rounded_bg_gray">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_account"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User Name"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="user@example.com"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:padding="16dp"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:id="@+id/btn_editProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_account"
+                android:tint="@color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="Edit Profile"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                android:tint="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_Account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_account_setting"
+                android:tint="@color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="Account Settings"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                android:tint="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_SignOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_sign_out"
+                android:tint="@color/white" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="16dp"
+                android:text="Sign Out"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_arrow_right"
+                android:tint="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemBackground="@color/black"
+        app:itemIconTint="@color/orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation"
+        android:elevation="8dp"
+        android:background="@color/black" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
