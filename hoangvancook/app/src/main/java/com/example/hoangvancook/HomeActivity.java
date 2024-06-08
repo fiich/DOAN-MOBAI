@@ -84,15 +84,14 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            tags.clear(); // Clear existing tags
-            // Iterate over the checked chips and add their text to the tags list
+            tags.clear();
             for (int i = 0; i < group.getChildCount(); i++) {
                 Chip chip = (Chip) group.getChildAt(i);
                 if (chip.isChecked()) {
                     tags.add(chip.getText().toString());
                 }
             }
-            // Call API to get random recipes with the selected tags
+
             checkInternetAndLoadData();
         });
 
@@ -164,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
             dialog.dismiss();
             recyclerView = findViewById(R.id.recycler_random);
             recyclerView.setHasFixedSize(true);
-            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
+            recyclerView.setLayoutManager(new GridLayoutManager(HomeActivity.this, 3));
             randomRecipeAdapter = new RandomRecipeAdapter(HomeActivity.this, response.recipes, recipeClickListener,recipeLongClickListener);
             recyclerView.setAdapter(randomRecipeAdapter);
         }
@@ -187,8 +186,8 @@ public class HomeActivity extends AppCompatActivity {
         @SuppressLint("InflateParams") Chip chip = (Chip) LayoutInflater.from(HomeActivity.this).inflate(R.layout.chip_layout, null);
         chip.setText(text);
         chip.setClickable(true);
-        chip.setCheckable(true); // If you want chips to be selectable
-        chip.setPadding(8, 0, 8, 0); // Adjust padding as needed
+        chip.setCheckable(true);
+        chip.setPadding(8, 0, 8, 0);
         chipGroup.addView(chip);
     }
 
@@ -220,6 +219,7 @@ public class HomeActivity extends AppCompatActivity {
                         recipe.image,
                         recipe.servings,
                         recipe.readyInMinutes
+
                 );
                 RecipeDatabase.getInstance(HomeActivity.this)
                         .recipeBookmarkDao()

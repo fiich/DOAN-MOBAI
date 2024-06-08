@@ -51,12 +51,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 .placeholder(R.drawable.image_error)
                 .error(R.drawable.image_error)
                 .into(holder.imageView_food);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                recipeClickListener.onRecipeClick(String.valueOf(bookmark.getRecipeId()));
-            }
-        });
+        holder.itemView.setOnClickListener(v -> recipeClickListener.onRecipeClick(String.valueOf(bookmark.getRecipeId())));
     }
 
     @Override

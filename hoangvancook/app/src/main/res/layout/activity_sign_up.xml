@@ -70,7 +70,7 @@
                 android:drawableLeft="@drawable/ic_password"
                 android:ems="10"
                 android:hint="Password"
-                android:inputType="text"
+                android:inputType="textPassword"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
                 android:layout_marginTop="10dp"
