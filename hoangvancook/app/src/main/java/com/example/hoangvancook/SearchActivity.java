@@ -1,7 +1,7 @@
 
 package com.example.hoangvancook;
 
-import android.app.Dialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,7 +17,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SearchActivity extends AppCompatActivity {
     private RecyclerView recyclerView_search_item;
-    private Dialog dialog;
     public SearchView search ;
     BottomNavigationView bottomNavigationView;
 
@@ -26,7 +25,6 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         Addcontrol();
-
         Addevent();
 
 
@@ -52,7 +50,6 @@ public class SearchActivity extends AppCompatActivity {
             return false;
         });
     }
-
     private void Addevent() {
 
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -61,7 +58,6 @@ public class SearchActivity extends AppCompatActivity {
                 tim_kiem_onSubmit(query);
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 tim_kiem_onInput(newText);
@@ -77,12 +73,6 @@ public class SearchActivity extends AppCompatActivity {
         RequestManager requestManager_search_item = new RequestManager(this);
         requestManager_search_item.searchFood(searchResponseListener, query, "submit");
     }
-    private void tim_kiem(String query) {
-//
-        RequestManager requestManager_search_item = new RequestManager(this);
-        requestManager_search_item.searchFood(searchResponseListener,query," ");
-    }
-
     private final SearchResponseListener searchResponseListener=new SearchResponseListener() {
         @Override
         public void didFetch(SearchResponse response, String message) {
@@ -92,7 +82,7 @@ public class SearchActivity extends AppCompatActivity {
                 startActivity(intent);
 
             }, response.getResults());
-            recyclerView_search_item.setLayoutManager(new GridLayoutManager(SearchActivity.this, 2));
+            recyclerView_search_item.setLayoutManager(new GridLayoutManager(SearchActivity.this, 1));
             recyclerView_search_item.setAdapter(searchAdapter);
         }
 

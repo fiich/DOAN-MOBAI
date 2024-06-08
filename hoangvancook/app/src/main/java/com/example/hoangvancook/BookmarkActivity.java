@@ -33,8 +33,10 @@ public class BookmarkActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_bookmark);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
         loadBookmarks();
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
@@ -56,7 +58,6 @@ public class BookmarkActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
     private void loadBookmarks() {
         new Thread(() -> {
@@ -72,7 +73,6 @@ public class BookmarkActivity extends AppCompatActivity {
             });
         }).start();
     }
-
     private final RecipeClickListener recipeClickListener = id -> {
         Intent intent = new Intent(BookmarkActivity.this, RecipeDetailsActivity.class);
         intent.putExtra("id", id);
@@ -83,7 +83,6 @@ public class BookmarkActivity extends AppCompatActivity {
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             return false;
         }
-
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
